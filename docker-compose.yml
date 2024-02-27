@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  users-service:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      DB_CONNECTION: sqlite
+      DB_DATABASE: /var/www/database/sqlite/usersdb.sqlite
+    volumes:
+      - .:/var/www
+    networks:
+      - my_network
+    depends_on:
+      - rabbitmq
+
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - my_network
+
+networks:
+  my_network:
