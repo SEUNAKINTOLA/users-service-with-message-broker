@@ -48,8 +48,6 @@ class ProcessUserCreation implements ShouldQueue
 
         $msg = new AMQPMessage(json_encode($userData));
         $this->channel->basic_publish($msg, '', $queue);
-
-        echo "[x] Sent ", json_encode($userData), "\n";
         $this->close();
     }
 
@@ -57,5 +55,10 @@ class ProcessUserCreation implements ShouldQueue
     {
         $this->channel->close();
         $this->mqconnection->close();
+    }
+
+    //Added to make this class testable
+    public function getUser(){
+        return $this->user;
     }
 }
